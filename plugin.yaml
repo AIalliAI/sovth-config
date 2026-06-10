@@ -1,0 +1,13 @@
+# Mirror of sovth_config/plugin.yaml — for repo-root discoverability
+# The authoritative manifest lives at sovth_config/plugin.yaml
+name: sovth-config
+version: 0.1.0
+description: "Southpaw's hermes-agent toolkit: /reading-list (deep-research wiki generator with low/high/max depth + Klerik review + manim podcast), profile character-card generator, and ^<profile> background invocation. Universal, distributable."
+author: Southpaw
+license: MIT
+homepage: https://github.com/SouthpawIN/sovth-config
+kind: standalone
+provides_tools:
+  - reading_list
+  - character_card
+  - invoke_profile

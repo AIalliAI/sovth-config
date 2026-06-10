@@ -1,0 +1,53 @@
+# Example Reading List
+# This is what a populated reading list looks like after a few `add` calls.
+# Generated for the sovth-config examples/ directory.
+
+schema_version: 1
+list_name: examples
+created: 2026-06-10T12:00:00Z
+updated: 2026-06-10T12:00:00Z
+
+items:
+  - id: 2026-06-10-attention-is-all-you-need
+    added: 2026-06-10T12:00:00Z
+    source: https://arxiv.org/abs/1706.03762
+    type: link
+    title: "Attention Is All You Need"
+    status: wiki-complete
+    depth: high
+    max_passes: 5
+    wiki: wiki/2026-06-10-attention-is-all-you-need.md
+    research:
+      started: 2026-06-10T12:00:05Z
+      finished: 2026-06-10T12:18:42Z
+      passes_completed: 2
+      self_eval_score: 8.5
+      sources_extracted: 1
+      sources_crossrefed: 4
+      facts_confirmed: 17
+
+  - id: 2026-06-09-darwin-merge-paper
+    added: 2026-06-09T15:30:00Z
+    source: https://arxiv.org/abs/2605.14386
+    type: link
+    title: "Darwin Family: Training-Free Weight-Space Recombination"
+    status: podcast-complete
+    depth: max
+    max_passes: 5
+    wiki: wiki/2026-06-09-darwin-merge-paper.md
+    podcast: wiki/2026-06-09-darwin-merge-paper_podcast.py
+    research:
+      started: 2026-06-09T15:30:08Z
+      finished: 2026-06-09T16:45:22Z
+      passes_completed: 3
+      self_eval_score: 8.7
+      sources_extracted: 1
+      sources_crossrefed: 6
+      facts_confirmed: 23
+    review:
+      reviewer: klerik
+      started: 2026-06-09T16:45:25Z
+      finished: 2026-06-09T17:02:11Z
+      score: 9.0
+      verdict: polish
+      revisions_applied: 1

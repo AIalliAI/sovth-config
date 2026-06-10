@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.venv/
+venv/
+.env
+.DS_Store
+.idea/
+.vscode/
+*.log
+*.tmp
+build/
+dist/
+
+# Profile-specific (user data, not source)
+portrait.png.actual
+research-state.json
+
+# Generated artifacts
+wiki/*.pyc
