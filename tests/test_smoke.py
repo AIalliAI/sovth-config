@@ -276,6 +276,53 @@ def test_runner_session_low():
             os.unlink(target)
 
 
+def test_data_root_env_override():
+    """SOVTH_READING_LIST_ROOT should redirect the data directory."""
+    from sovth_config import tools
+
+    with tempfile.TemporaryDirectory() as tmp:
+        custom_root = Path(tmp) / "custom-reading-list"
+        os.environ["SOVTH_READING_LIST_ROOT"] = str(custom_root)
+        try:
+            # Re-import to pick up the env var. The constant is evaluated
+            # at import, so we have to reload the module.
+            import importlib
+            importlib.reload(tools)
+            assert tools.DATA_ROOT == custom_root
+        finally:
+            del os.environ["SOVTH_READING_LIST_ROOT"]
+            importlib.reload(tools)  # restore default
+
+
+def test_runner_high_loop_terminates():
+    """The high-mode loop should stop when self-eval is passing."""
+    from sovth_config.research import trigger_research_hook
+    from sovth_config.research.runner import ResearchSession
+
+    with tempfile.TemporaryDirectory() as tmp:
+        list_dir = Path(tmp) / "test"
+        list_dir.mkdir()
+        with tempfile.NamedTemporaryFile(suffix=".md", delete=False, mode="w") as f:
+            f.write("test content")
+            target = f.name
+        try:
+            item = trigger_research_hook(list_dir, target, depth="high", max_passes=3)
+            sess = ResearchSession(list_dir=list_dir, item=item, depth="high", max_passes=3)
+            # Pass 1: draft
+            step1 = sess.next_step()
+            assert step1["step"] == "draft_wiki"
+            # Simulate a passing self-eval
+            sess.record_draft(
+                content="...",
+                self_eval_text='{"accuracy": 9.0, "completeness": 9.0, "sourcing": 9.0, "clarity": 9.0}',
+            )
+            # Next step should be stop (no Klerik in high mode)
+            step2 = sess.next_step()
+            assert step2["step"] == "stop", f"expected stop, got {step2}"
+        finally:
+            os.unlink(target)
+
+
 # ---------------------------------------------------------------------------
 # Run as script
 # ---------------------------------------------------------------------------
@@ -295,6 +342,8 @@ if __name__ == "__main__":
         test_global_wiki_empty,
         test_check_available,
         test_runner_session_low,
+        test_data_root_env_override,
+        test_runner_high_loop_terminates,
     ]
     failures = 0
     for t in tests:

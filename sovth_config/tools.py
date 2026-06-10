@@ -34,7 +34,13 @@ from .research.profile_invoker import invoke_profile
 # Data directory helpers
 # ---------------------------------------------------------------------------
 
-DATA_ROOT = Path(os.path.expanduser("~/.hermes/reading-list"))
+# Allow override via SOVTH_READING_LIST_ROOT env var (for testing,
+# for users who want a non-default location, or for the local-nosync
+# pattern when working across machines). Default: ~/.hermes/reading-list
+DATA_ROOT = Path(
+    os.environ.get("SOVTH_READING_LIST_ROOT")
+    or os.path.expanduser("~/.hermes/reading-list")
+)
 
 
 def _list_dir(list_name: str) -> Path:

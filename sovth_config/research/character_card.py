@@ -29,7 +29,10 @@ from typing import Any
 from .errors import ReadingListError
 
 
-PROFILES_ROOT = Path(os.path.expanduser("~/.hermes/profiles"))
+PROFILES_ROOT = Path(
+    os.environ.get("SOVTH_PROFILES_ROOT")
+    or os.path.expanduser("~/.hermes/profiles")
+)
 
 
 # ---------------------------------------------------------------------------
