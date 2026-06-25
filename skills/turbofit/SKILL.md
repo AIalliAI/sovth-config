@@ -72,6 +72,44 @@ serve vram
 serve downscale
 ```
 
+## Dynamic Model Database
+
+The model universe, pricing, and benchmarks are stored in [`references/model-database.yaml`](references/model-database.yaml) — a single source of truth that is **auto-updated daily** by a research cron job.
+
+### How it works
+
+1. **Daily research cron** runs at 6am — scans OpenRouter, HuggingFace, Price Per Token, and LLMCheck for new models, pricing changes, and benchmark updates
+2. **Research script** (`scripts/research-models.py`) fetches live data and generates a report
+3. **Agent reviews** the report, updates `model-database.yaml` with new models or pricing changes
+4. **GitHub sync** (`scripts/sync-github.sh`) pushes updates to `SouthpawIN/sovth-config`
+5. **All turbofit users** can pull fresh data from GitHub: `git pull origin main` in their local sovth-config repo
+
+### What's in the database
+
+Each model entry includes:
+- **Pricing** across all providers (Nous, OpenRouter, NIM, direct API)
+- **Context window** and supported context tiers
+- **Vision capability** (text-only models must pair with vision aux)
+- **Benchmark scores** (MMLU, SWE-Verified, HumanEval, AIME — when available)
+- **Local model info** (GGUF repo, quants, size, archetypes, mmproj)
+- **Discovery date** and **last verified date**
+
+### Manual usage
+
+```bash
+# Run the research script manually
+python3 ~/.hermes/skills/turbofit/scripts/research-models.py
+
+# Check the latest report
+cat ~/.hermes/skills/turbofit/references/research-report.md
+
+# Sync to GitHub manually
+bash ~/.hermes/skills/turbofit/scripts/sync-github.sh
+
+# Pull fresh data from GitHub (for end users)
+cd ~/projects/sovth-config && git pull origin main
+```
+
 ## Opinionated defaults (turbofit v5)
 
 | Setting | Value | Source |
@@ -463,12 +501,15 @@ Extend the four `declare -A LAUNCHER_*` arrays at the top, add cases in `install
 
 ## See also
 
+- `references/model-database.yaml` — **dynamic source of truth** for all model specs, pricing, benchmarks. Auto-updated daily via research cron, synced to GitHub.
 - `references/api-pairing-matrix.md` — complete main+aux pairing matrix by price tier × context level, with gateway indicators
 - `references/binary-selection.md` — atomic fork vs stock decision tree (which binary for which model, VRAM considerations for spec decoding)
 - `references/scaling-ladder.md` — full scaling ladders for all three hardware tiers (Beefy 7-step, Modest 5-step, Thin 4-step)
 - `references/curated-lineup.md` — the curated picks (local archetypes + API models, pairing rules)
 - `references/api-model-rankings.md` — API main + aux rankings by volume performance, hardware tier mapping
 - `references/api-tier-rankings.md` — quick-reference API tier rankings with provider details
+- `scripts/research-models.py` — daily research script (scans OpenRouter, HuggingFace, Price Per Token, LLMCheck)
+- `scripts/sync-github.sh` — GitHub sync script (pushes to SouthpawIN/sovth-config)
 - `southpaw-models` — curated lineup rationale (Darwin / Prism / Carnice / Carwin / Qwopus)
 - `local-llm-fleet-management` — legacy catalog mechanics (now subsumed by turbofit)
 - `llama-cpp` — llama.cpp build + GGUF discovery
