@@ -53,12 +53,12 @@ models:
     context_tiers: [1048576, 524288, 262144, 131072]
     pricing:
       nous: { input: 0.95, output: 3.00, slug: "z-ai/glm-5.2" }
-      openrouter: { input: 0.95, output: 3.00, slug: "z-ai/glm-5.2", free: false }
-      direct: { input: 1.40, output: 4.40, provider: "Z.AI" }
+      openrouter: { input: 0.95, output: 3.00, slug: "z-ai/glm-5.2", free: false, cache_read: 0.18 }
+      direct: { input: 1.40, output: 4.40, provider: "Z.AI", cache_read: 0.26 }
     benchmarks:
-      source: "Z.AI blog, VentureBeat coverage"
+      source: "Z.AI blog, VentureBeat, OpenRouter API"
       notes: "Highest-ranked open-source model on long-horizon coding benchmarks, approaches Claude Opus 4.8 on terminal tasks"
-    notes: "1M context, free access on Z.AI platform, enterprise subscription $12.60/mo"
+    notes: "1M context, cache read: $0.18/M (81% savings on cache hits). Free access on Z.AI platform."
     discovered: "2026-06-16"
     last_verified: "2026-06-25"
 
@@ -73,7 +73,7 @@ models:
     context_tiers: [1048576, 524288, 262144, 131072]
     pricing:
       nous: { input: 1.25, output: 3.75, slug: "qwen/qwen3.7-max" }
-      openrouter: { input: 1.25, output: 3.75, slug: "qwen/qwen3.7-max", free: false }
+      openrouter: { input: 1.25, output: 3.75, slug: "qwen/qwen3.7-max", free: false, cache_read: 0.25 }
       direct: { input: 1.25, output: 3.75, provider: "DashScope" }
     benchmarks:
       source: "Qwen blog, OpenRouter"
@@ -92,7 +92,7 @@ models:
     context_tiers: [1048576, 524288, 262144, 131072]
     pricing:
       nous: { input: 0.435, output: 0.87, slug: "deepseek/deepseek-v4-pro" }
-      openrouter: { input: 1.74, output: 3.48, slug: "deepseek/deepseek-v4-pro", free: false, cache_hit_input: 0.145 }
+      openrouter: { input: 0.435, output: 0.87, slug: "deepseek/deepseek-v4-pro", free: false, cache_read: 0.0036 }
       nim: { input: 0, output: 0, slug: "deepseek-ai/deepseek-v4-pro" }
       direct: { input: 0.435, output: 0.87, provider: "DeepSeek", cache_hit_input: 0.0028 }
     benchmarks:
@@ -113,7 +113,7 @@ models:
     context_tiers: [1048576, 524288, 262144, 131072]
     pricing:
       nous: { input: 0.09, output: 0.18, slug: "deepseek/deepseek-v4-flash" }
-      openrouter: { input: 0.09, output: 0.18, slug: "deepseek/deepseek-v4-flash", free: false }
+      openrouter: { input: 0.09, output: 0.18, slug: "deepseek/deepseek-v4-flash", free: false, cache_read: 0.02 }
       nim: { input: 0, output: 0, slug: "deepseek-ai/deepseek-v4-flash" }
       direct: { input: 0.14, output: 0.28, provider: "DeepSeek", cache_hit_input: 0.0028 }
     benchmarks:
@@ -133,12 +133,13 @@ models:
     context_max: 1048576
     context_tiers: [1048576, 524288, 262144, 131072]
     pricing:
-      nous: { input: 1.00, output: 3.00, slug: "xiaomi/mimo-v2.5-pro" }
-      openrouter: { input: 1.00, output: 3.00, slug: "xiaomi/mimo-v2.5-pro", free: false }
-      direct: { input: 1.00, output: 3.00, provider: "Xiaomi" }
+      nous: { input: 0.435, output: 0.87, slug: "xiaomi/mimo-v2.5-pro" }
+      openrouter: { input: 0.435, output: 0.87, slug: "xiaomi/mimo-v2.5-pro", free: false, cache_read: 0.0036 }
+      direct: { input: 0.435, output: 0.87, provider: "Xiaomi" }
     benchmarks:
-      source: "Xiaomi MiMo blog, HuggingFace"
-      notes: "1.02T MoE, 42B active, open-source weights available"
+      source: "OpenRouter API, HuggingFace"
+      notes: "1.02T MoE, 42B active. Same pricing as DeepSeek V4 Pro."
+    notes: "Open-source weights on HuggingFace. Cache read: $0.0036/M (99% savings on cache hits)."
     discovered: "2026-06-01"
     last_verified: "2026-06-25"
 
@@ -177,7 +178,7 @@ models:
     context_tiers: [1048576, 524288, 262144, 131072]
     pricing:
       nous: { input: 0.32, output: 1.28, slug: "qwen/qwen3.7-plus" }
-      openrouter: { input: 0.32, output: 1.28, slug: "qwen/qwen3.7-plus", free: false }
+      openrouter: { input: 0.32, output: 1.28, slug: "qwen/qwen3.7-plus", free: false, cache_read: 0.064 }
       direct: { input: 0.50, output: 3.00, provider: "DashScope" }
     benchmarks:
       source: "Qwen blog, Fireworks, OpenRouter"
@@ -197,7 +198,7 @@ models:
     context_tiers: [1048576, 524288, 262144, 131072]
     pricing:
       nous: { input: 0.30, output: 1.20, slug: "minimaxai/minimax-m3" }
-      openrouter: { input: 0.30, output: 1.20, slug: "minimaxai/minimax-m3", free: false }
+      openrouter: { input: 0.30, output: 1.20, slug: "minimaxai/minimax-m3", free: false, cache_read: 0.06 }
       nim: { input: 0, output: 0, slug: "minimaxai/minimax-m3" }
     benchmarks:
       source: "MiniMax blog, LushBinary"
@@ -217,7 +218,7 @@ models:
     context_tiers: [262144, 131072]
     pricing:
       nous: { input: 0.74, output: 3.50, slug: "moonshotai/kimi-k2.7-code" }
-      openrouter: { input: 0.74, output: 3.50, slug: "moonshotai/kimi-k2.7-code", free: false }
+      openrouter: { input: 0.74, output: 3.50, slug: "moonshotai/kimi-k2.7-code", free: false, cache_read: 0.15 }
       direct: { input: 0.95, output: 4.00, provider: "Moonshot", cache_hit_input: 0.19 }
     benchmarks:
       source: "MarkTechPost, Requesty"
@@ -232,15 +233,15 @@ models:
     type: api
     vision: true
     role: either
-    context_max: 1048576
-    context_tiers: [1048576, 524288, 262144, 131072]
+    context_max: 262144
+    context_tiers: [262144, 131072]
     pricing:
-      nous: { input: 0.60, output: 2.50, slug: "moonshotai/kimi-k2.6" }
-      openrouter: { input: 0.60, output: 2.50, slug: "moonshotai/kimi-k2.6", free: false }
+      nous: { input: 0.66, output: 3.41, slug: "moonshotai/kimi-k2.6" }
+      openrouter: { input: 0.66, output: 3.41, slug: "moonshotai/kimi-k2.6", free: false, cache_read: 0.144 }
     benchmarks:
-      source: "OpenRouter, whatllm.org"
-      notes: "Multimodal, 1M ctx, coding-driven UI/UX generation, multi-agent orchestration"
-    notes: "Previously free on OpenRouter via Crucible. May still have free tier."
+      source: "OpenRouter API"
+      notes: "Multimodal, 262K ctx. Coding-driven UI/UX generation, multi-agent orchestration."
+    notes: "Cache read: $0.144/M (78% savings). Previously free on OR via Crucible — now paid."
     discovered: "2026-05-01"
     last_verified: "2026-06-25"
 
@@ -300,90 +301,31 @@ models:
     last_verified: "2026-06-25"
 
   # ═══════════════════════════════════════════
-  # NEW DISCOVERIES (June 2026)
+  # NEW DISCOVERIES (June 2026) — VERIFIED REAL
   # ═══════════════════════════════════════════
 
-  qwen-4-32b-a3b:
-    name: "Qwen 4 32B-A3B"
+  qwen-agentworld-35b-a3b:
+    name: "Qwen-AgentWorld-35B-A3B"
     family: Qwen
-    version: "4-32B-A3B"
-    type: both
-    vision: true
-    role: main
-    context_max: 1048576
-    context_tiers: [1048576, 524288, 262144, 131072]
-    pricing:
-      # API pricing TBD — check DashScope/OpenRouter
-      notes: "Check DashScope and OpenRouter for API pricing"
-    benchmarks:
-      mmlu: 89
-      swe_verified: 78
-      humaneval: 94
-      aime: 91
-      source: "LLMCheck benchmarks June 6, 2026"
-      notes: "New #1 open model. Score 75/100. Closes open-vs-closed coding gap to 2pp."
-    local:
-      gguf_repo: "TBD — check HuggingFace for Qwen4-32B-A3B GGUF quants"
-      gguf_quants: ["Q4_K_M", "Q8_0", "BF16"]
-      size_gb: 18.0  # estimated for Q4_K_M
-      archetypes: ["32B MoE 3B-active"]
-      mmproj: "TBD"
-      n_embd: 2048  # likely, based on Qwen MoE pattern
-    notes: "Apache 2.0, 1M native context, Ollama: ollama run qwen4:32b-a3b, MLX available"
-    discovered: "2026-06-25"
-    last_verified: "2026-06-25"
-    new: true
-
-  qwen-4-coder-32b-a3b:
-    name: "Qwen 4 Coder 32B-A3B"
-    family: Qwen
-    version: "4-Coder-32B-A3B"
-    type: both
-    vision: true
-    role: main
-    context_max: 1048576
-    context_tiers: [1048576, 524288, 262144, 131072]
-    pricing:
-      notes: "Check DashScope and OpenRouter for API pricing"
-    benchmarks:
-      swe_verified: 82
-      source: "LLMCheck benchmarks June 2026"
-      notes: "Top Mac coder, beats Devstral. 61% agentic tool use success."
-    local:
-      gguf_repo: "TBD — check HuggingFace"
-      gguf_quants: ["Q4_K_M", "Q8_0"]
-      size_gb: 18.0
-      archetypes: ["32B MoE 3B-active"]
-      mmproj: "TBD"
-      n_embd: 2048
-    notes: "Apache 2.0, unrestricted commercial use. Ollama: ollama run qwen4:coder"
-    discovered: "2026-06-25"
-    last_verified: "2026-06-25"
-    new: true
-
-  grok-4-open:
-    name: "Grok 4 Open"
-    family: Grok
-    version: "4-Open"
+    version: "AgentWorld-35B-A3B"
     type: both
     vision: false
     role: main
     context_max: 262144
     context_tiers: [262144, 131072]
     pricing:
-      notes: "Check xAI API and OpenRouter for pricing"
+      notes: "Open-weight (Apache 2.0). No mainstream API yet — check DashScope/Qwen Studio for hosted. Self-host via SGLang."
     benchmarks:
-      mmlu: 86
-      swe_verified: 69
-      tool_use: 93
-      source: "LLMCheck June 2026"
-      notes: "100B MoE, 20B active. xAI Custom license (permissive, requires attribution)."
+      source: "arXiv:2606.24597, qwen.ai/blog?id=qwen-agentworld"
+      notes: "World model for agent simulation. 35B MoE / 3B active. 7 agent domains (Terminal, Search, MCP, SWE, Web, OS, Android). Beats GPT-5.4 on AgentWorldBench (58.71 vs 58.25). Not a general chat model — specialized for agent environment simulation."
     local:
-      gguf_repo: "TBD"
-      gguf_quants: ["Q4_K_M"]
-      size_gb: 55.0
-      archetypes: ["100B MoE 20B-active"]
-    notes: "Downloaded 1.4M times in 48 hours. Ollama: ollama run grok4:open"
+      gguf_repo: "Qwen/Qwen-AgentWorld-35B-A3B (check HuggingFace for GGUF quants)"
+      gguf_quants: ["Q4_K_M", "Q8_0"]
+      size_gb: 18.0
+      archetypes: ["35B MoE 3B-active"]
+      mmproj: "N/A (text-only)"
+      n_embd: 2048
+    notes: "Released June 23, 2026. Paper: arXiv:2606.24597. SGLang deployment: python -m sglang.launch_server --model-path Qwen/Qwen-AgentWorld-35B-A3B --port 8000 --tensor-parallel-size 4 --context-length 262144 --reasoning-parser qwen3. Niche use case — not recommended for general Hermes Agent main/aux, but relevant for agent simulation research."
     discovered: "2026-06-25"
     last_verified: "2026-06-25"
     new: true
