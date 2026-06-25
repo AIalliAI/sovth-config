@@ -1,7 +1,7 @@
 # 🎴 sovth-config
 
-> **Southpaw's hermes-agent toolkit** — distributable, universal, shareable.
-> Provides `/reading-list` deep-research, profile character cards, and `^<profile>` background invocation.
+> **An opinionated configuration for [Hermes Agent](https://github.com/NousResearch/hermes-agent).**
+> Distributable profiles, skills, and tools — curated, battle-tested, and kept updated with everything useful we make.
 
 **TOWARDS SELF-IMPROVEMENT**
 
@@ -9,19 +9,17 @@
 
 ## What is this?
 
-`sovth-config` is a collection of three hermes-agent plugins plus a curated library of profile character cards. It's designed to be cloned, installed, and shared — anyone with [Hermes Agent](https://github.com/hermes-agent) can drop it in and immediately get the new tools.
+`sovth-config` is an opinionated configuration layer for [Hermes Agent](https://github.com/NousResearch/hermes-agent) — the self-improving AI agent built by [Nous Research](https://nousresearch.com). It provides a curated collection of agent profiles, skills, and plugin tools that extend Hermes with deep-research, profile management, and multi-agent orchestration capabilities.
 
-### The three tools
+This repo is kept updated with new profiles and skills as we build them. Anything useful enough to share lands here. If it's not useful, it doesn't make the cut.
 
-| Tool | What it does |
-|---|---|
-| **`reading_list`** | Deep-research wiki generator. Add links or files; each item auto-triggers a research hook that produces a per-item wiki with cross-referenced sources. Three depth levels: `low` (single pass), `high` (1-5 self-evaluated passes), `max` (high + manim podcast + Klerik content review). |
-| **`character_card`** | Generate a video-game-style character card (README + pixel-art portrait) for any Hermes profile in `~/.hermes/profiles/`. Walks SOUL.md, AGENTS.md, config.yaml, skills/. Outputs a standardized card with import tutorial. |
-| **`invoke_profile`** | The mechanism behind the `^<profile>` quick command. Spawn a named profile as a background agent (cron-style, persists across sessions) or ephemerally (in-context, fast). **Memory continuity is preserved per-profile** by construction. |
+### What's inside
 
-### The profile character cards
-
-This repo ships with **12 character cards** for the profiles in `~/.hermes/profiles/` — see [`profiles/README.md`](profiles/README.md) for the full roster. Each card has a Name, Class, Stats, Skills, Lore, and a one-page import tutorial. Standardized, game-card aesthetic, inspired by the Nous Research brand.
+| Layer | What it does |
+|-------|-------------|
+| **Profiles** | Character cards + profile configs for a multi-agent fleet — editors, researchers, triage orchestrators, builders, and more. Each card is a game-style README with stats, lore, and import instructions. |
+| **Skills** | Shareable Hermes Agent skills. First up: **turbofit** — an opinionated unified LLM backend that picks the best main + aux model for your hardware, launches them, and wires Hermes config automatically. |
+| **Plugin Tools** | Three (soon four) Hermes Agent plugin tools: `/reading-list` (deep-research wiki generator), `/character_card` (profile card generator), `^<profile>` (background profile invocation), and the upcoming `skill_market` (self-improving suggestion engine). |
 
 ---
 
@@ -38,23 +36,16 @@ The plugin will be picked up automatically by Hermes on next launch. Verify with
 
 ```bash
 hermes plugins
-# should list: sovth-config 0.1.0  📚 🎴 ⚡
+# should list: sovth-config
 ```
 
-### Manual install (copy instead of symlink)
+### Import profiles
 
 ```bash
-git clone https://github.com/SouthpawIN/sovth-config.git
-cp -r sovth-config/sovth_config ~/.hermes/plugins/
-```
-
-### Use the character cards
-
-```bash
-# Import the whole roster to your profiles dir (or just the ones you want)
+# Import the whole roster (or just the ones you want)
 for d in sovth-config/profiles/*/; do
     name=$(basename "$d")
-    [ "$name" = "default" ] && continue
+    [ "$name" = "README.md" ] && continue
     ln -s "$(pwd)/$d" ~/.hermes/profiles/"$name"
 done
 
@@ -66,133 +57,156 @@ ln -s $(pwd)/sovth-config/profiles/nous-girl ~/.hermes/profiles/nous-girl
 hermes -p klerik
 ```
 
+### Install the turbofit skill
+
+```bash
+# If turbofit is bundled as a skill directory:
+ln -s $(pwd)/sovth-config/skills/turbofit ~/.hermes/skills/turbofit
+
+# Source the serve shim (one-time, already in ~/.bashrc after install)
+source ~/.hermes/skills/turbofit/scripts/turbofit.sharco
+
+# One-shot: pick best main model for your box, launch, wire Hermes
+serve auto main
+```
+
 ---
 
-## Quick start: `/reading-list`
+## The Profile Fleet
 
-Once installed, the `reading_list` tool is available. In a Hermes session:
+Character cards for a multi-agent ecosystem. Each is a game-style README — Name, Class, Stats, Skills, Lore, and a one-page import tutorial.
+
+| Profile | Class | Role |
+|---------|-------|------|
+| **`klerik`** | Profile Editor | Meta-agent that reviews and surgically corrects other Hermes agent profiles. Uses DSPy + GEPA for prompt optimization. |
+| **`anser`** | Tech Support + Creator | Discord tech support for Hermes Agent. Also creates profiles and skills using Klerik + skill authoring. Always answers in TL;DR + file attachment format. |
+| **`nous-girl`** | Curious Muse | Warm, intellectual, idea-driven. The creative brainstormer in the agent chain. |
+| **`senter`** | Triage Orchestrator | Receives ideas, decides scope, routes to specialists. Manages the Kanban board. |
+| **`chizul`** | Builder | The worker profile. Executes Kanban tasks — code, config, file operations. |
+| **`kashik`** | Akashic Librarian | Silent historian that transforms Crow research lore into universal guides and skills. Non-Hermes-specific. |
+| **`crow`** | Deep Researcher | Deep web research agent. Uses /learn and llm-wiki to create structured "lore" that Kashik turns into guides. |
+| **`frieza`** | Galactic Steward | Governance, moderation, Discord server management. |
+| **`jestur`** | Creative Companion | Art, music, creative work. |
+| **`dev-coder`** | Codewright | Engineering, code generation. |
+| **`dev-orch`** | Orchestrator | Development orchestration. |
+| **`dev-review`** | Reviewer | Code review and quality gates. |
+| **`test-bot`** | Test Agent | Testing and experimentation. |
+
+See [`profiles/README.md`](profiles/README.md) for the full roster with character cards.
+
+---
+
+## Skills
+
+### turbofit
+
+**Opinionated unified LLM backend (v5.1).** Picks the best main + aux model for your hardware — local or API — launches them detached, wires Hermes-Agent config, and adapts to live VRAM pressure via a scaling ladder.
+
+- Three hardware tiers: Beefy (local+local), Modest (API+local), Thin (API+API)
+- `serve auto main` auto-detects GPU and suggests the right setup
+- API fallback always available (free: DeepSeek V4 Pro + Kimi K2.6)
+- 18 named flag presets, per-model binary pinning, tier ladder
+- 64K Hermes context floor enforced everywhere
+- Replaces llama-launch, omni-va, and ad-hoc llama-server scripts
+
+```bash
+serve auto main          # pick best main, launch, wire Hermes — done
+serve auto main --vision  # require vision
+serve auto main --api     # force API mode
+serve downscale           # adapt to VRAM pressure
+```
+
+See [`skills/turbofit/SKILL.md`](skills/turbofit/SKILL.md) for full documentation.
+
+---
+
+## Plugin Tools
+
+### `/reading-list` — Deep-Research Wiki Generator
+
+Add links or files; each item auto-triggers a research hook that produces a per-item wiki with cross-referenced sources. Three depth levels: `low`, `high`, `max` (with manim podcast + Klerik review).
 
 ```text
 /reading-list add https://arxiv.org/abs/1706.03762 --depth high
-/reading-list add ~/papers/attention-is-all-you-need.pdf --depth max
-/reading-list show
 /reading-list wiki
-/reading-list remove https://arxiv.org/abs/1706.03762
 ```
 
-Storage: `~/.hermes/reading-list/<list-name>/`
-- `list.yaml` — items + research state
-- `wiki/<slug>.md` — per-item wiki pages
-- `wiki/_index.md` — global wiki (assembled by the `wiki` action)
+### `/character_card` — Profile Card Generator
 
-### Depth levels
-
-| Level | Passes | Self-eval | Multimedia | Reviewer |
-|---|---|---|---|---|
-| `low` | 1 | no | wiki only | none |
-| `high` | 1-5 (cap configurable) | yes — stops when min criterion ≥ 8/10 | wiki only | none |
-| `max` | 1-5 | yes | wiki + manim podcast (NotebookLM-style) | Klerik (content-review mode) |
-
-The `high` and `max` loops do NOT use a hardcoded number of passes — they keep going until the self-eval rates every criterion (accuracy, completeness, sourcing, clarity) at 8/10 or above, capped at `max_passes` (default 5).
-
-### Klerik as reviewer
-
-`max` mode spawns a delegate_task subagent with the Klerik persona loaded (see [`profiles/klerik/`](profiles/klerik/)). The reviewer reads the draft wiki, gives a score, and lists specific surgical issues. A final pass applies the feedback.
-
----
-
-## Quick start: `/character_card`
-
-In a Hermes session:
+Generate a video-game-style character card (README + pixel-art portrait) for any Hermes profile. Walks SOUL.md, AGENTS.md, config.yaml, skills/.
 
 ```text
 /character_card generate klerik
 /character_card generate_all
-/character_card show nous-girl
-/character_card tutorial klerik
 ```
 
-The generated card lives at `~/.hermes/sovth-config/profiles/<name>/` (or wherever you set `--out-dir`). It includes:
-- `README.md` — the character card (game-card aesthetic)
-- `profile.json` — raw extracted metadata
-- `portrait.png` — pixel-art portrait (placeholder until FAL is wired in)
+### `^<profile>` — Background Profile Invocation
 
-### Customizing the pixel-art preset
-
-Default preset is **`arcade`** (bold chunky 80s cabinet feel — most game-card energy). Available presets:
-
-```
-arcade, nes, snes, gameboy, pico8, c64, apple2,
-mono_green, mono_amber, neon, pastel
-```
-
-Per-card override: `/character_card generate klerik --preset gameboy`
-
----
-
-## Quick start: `^<profile>`
-
-Once the plugin is installed, you can invoke any profile as a background agent from any other profile session:
+Spawn any profile as a background agent or ephemerally in-context. Memory continuity is preserved per-profile.
 
 ```text
 ^klerik review this README and flag any issues
-^nous-girl draft a 200-word Twitter thread about Darwin merge
+^nous-girl draft a 200-word thread about Darwin merge
 ^senter triage this stack trace
 ```
 
-Behind the scenes, this calls `invoke_profile` with `mode=auto`:
-- **Long/complex prompts** → background (hermes subprocess with `HERMES_HOME=~/.hermes/profiles/<name>`)
-- **Short prompts** → ephemeral (delegate_task with Klerik's SOUL injected as system context)
+### `skill_market` *(coming soon)*
 
-Memory continuity is preserved **per-profile by construction**: the subprocess's `HERMES_HOME` overrides point at the target profile's storage, so its session DB and `MEMORY.md` updates land in the named profile, not the caller's.
+Self-improving suggestion engine. Anser checks sovth-config for matching profiles/skills when answering questions. If a gap is found, triggers a creation chain: `^nous-girl` brainstorms → `^klerik` reviews → result written to repo. Similar questions refine the same artifacts over time.
 
 ---
 
-## Repo structure
+## Repo Structure
 
 ```
 sovth-config/
-├── sovth_config/                  # Python package (the plugin)
-│   ├── __init__.py                # register(ctx) — hermes-agent entry point
-│   ├── plugin.yaml                # manifest
-│   ├── schemas.py                 # tool schemas (reading_list, character_card, invoke_profile)
-│   ├── tools.py                   # tool handlers
-│   └── research/                  # deep-research subsystem
-│       ├── hook.py                # state machine: add/remove/list items
-│       ├── runner.py              # multi-pass research orchestrator
-│       ├── extract.py             # URL/file → text
-│       ├── crossref.py            # 3-5 source cross-referencing
-│       ├── self_eval.py           # quality scoring
-│       ├── klerik_review.py       # Klerik content review
-│       ├── podcast.py             # manim NotebookLM-style podcast
-│       ├── wiki_writer.py         # structured markdown generation
-│       ├── character_card.py      # profile character-card generator
-│       ├── profile_invoker.py     # ^<profile> background invocation
-│       ├── storage.py             # YAML read/write + slugify
+├── sovth_config/              # Python plugin package
+│   ├── __init__.py             # register(ctx) — Hermes Agent entry point
+│   ├── plugin.yaml             # plugin manifest
+│   ├── schemas.py              # tool schemas
+│   ├── tools.py                # tool handlers
+│   └── research/               # deep-research + utilities
+│       ├── hook.py             # reading-list state machine
+│       ├── runner.py           # multi-pass research orchestrator
+│       ├── extract.py          # URL/file → text
+│       ├── crossref.py         # source cross-referencing
+│       ├── self_eval.py        # quality scoring
+│       ├── klerik_review.py    # Klerik content review
+│       ├── podcast.py          # manim NotebookLM-style podcast
+│       ├── wiki_writer.py      # structured markdown generation
+│       ├── character_card.py   # profile card generator
+│       ├── profile_invoker.py  # ^<profile> invocation
+│       ├── storage.py          # YAML read/write + slugify
 │       └── errors.py
-├── profiles/                      # 12 character cards (Phase 2)
-│   ├── README.md                  # the roster
-│   ├── klerik/                    # one card per profile
+├── profiles/                   # Character cards (the fleet)
+│   ├── README.md               # roster
+│   ├── klerik/
+│   ├── anser/
 │   ├── nous-girl/
+│   ├── crow/                   # *(new — deep researcher)*
+│   ├── kashik/                 # *(updated — universal guide writer)*
 │   └── ...
+├── skills/                     # Shareable skills
+│   └── turbofit/               # opinionated unified LLM backend
+│       ├── SKILL.md
+│       ├── distribution.yaml
+│       ├── scripts/
+│       └── references/
 ├── tests/
-│   └── test_smoke.py              # 13 smoke tests
+│   └── test_smoke.py
 ├── examples/
-│   ├── example-list.yaml          # sample reading list
-│   └── wiki/
-│       └── _index.md              # sample global wiki
-├── plugin.yaml                    # (mirrored at repo root for discoverability)
-└── README.md                      # this file
+├── plugin.yaml                 # mirrored for discoverability
+└── README.md                   # this file
 ```
 
 ---
 
-## Brand & aesthetic
+## Brand & Aesthetic
 
-- **Pixel-art portraits**: default `arcade` preset, monochrome-leaning, retro-futurist. See [`nous-brand-guide`](https://nousresearch.com) for the full brand book.
-- **Typography**: Courier Pro (monospace) for labels and metadata, Helvetica for display headers, Mondwest for accents.
-- **Tagline**: "TOWARDS SELF-IMPROVEMENT" — appears as a footer on every character card.
-- **Color**: strictly monochrome by default (Nous brand rule). Use `mono_green` or `gameboy` preset for the most brand-aligned look; `arcade`/`pico8` for the most game-card energy.
+- **Pixel-art portraits**: default `arcade` preset, monochrome-leaning, retro-futurist
+- **Typography**: Courier Pro (monospace) for labels, Helvetica for headers, Mondwest for accents
+- **Tagline**: "TOWARDS SELF-IMPROVEMENT" — footer on every character card
+- **Color**: strictly monochrome by default (Nous brand rule)
 
 ---
 
@@ -202,8 +216,6 @@ sovth-config/
 # Run smoke tests
 cd sovth-config
 python3 tests/test_smoke.py
-
-# 13/13 should pass.
 
 # Regenerate all character cards
 python3 -c "
@@ -217,6 +229,20 @@ generate_all_character_cards(preset='arcade', out_dir=Path('profiles'))
 
 ---
 
+## Relationship to Hermes Agent
+
+This is **not** Hermes Agent itself — it's an opinionated configuration layer on top of it. Hermes Agent is the self-improving AI agent built by [Nous Research](https://github.com/NousResearch), available at [github.com/NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent). Go there for the core agent, CLI, documentation, and releases.
+
+What we add:
+- **Curated profiles** with tested SOUL.md, AGENTS.md, and configs
+- **Skills** like turbofit that solve real infrastructure problems
+- **Plugin tools** that extend Hermes with new capabilities
+- **Character cards** that make profiles easy to browse and share
+
+We keep this updated with useful stuff we make. If it's not useful, it doesn't ship.
+
+---
+
 ## License
 
 MIT — share, fork, remix. See [LICENSE](LICENSE).
@@ -224,6 +250,4 @@ MIT — share, fork, remix. See [LICENSE](LICENSE).
 ## Credits
 
 Built by [SouthpawIN](https://github.com/SouthpawIN) for the Hermes Agent community.
-Inspired by the Nous Research brand book (Feb 2024, 1st ed.) and the
-[evolutionary-model-merging](https://github.com/SouthpawIN/evolutionary-model-merging)
-project.
+Inspired by the Nous Research brand book and the Hermes Agent project.

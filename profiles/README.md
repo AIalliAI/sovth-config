@@ -1,6 +1,6 @@
 # 🎴 Profile Roster
 
-> **12 character cards** for the Hermes Agent profile fleet.
+> Character cards for the Hermes Agent profile fleet.
 > Each card is a game-style character sheet — Name, Class, Stats, Skills, Lore, How to Import.
 
 **TOWARDS SELF-IMPROVEMENT**
@@ -9,33 +9,37 @@
 
 ## The Fleet
 
-| Profile | Class | Model | Skills | Card |
-|---|---|---|---|---|
-| **`klerik`** | Profile Editor | Darwin-28B-REASON | dogfood, yuanbao | [📄](klerik/README.md) |
-| **`nous-girl`** | Curious Muse | Darwin-28B-REASON | (TBD) | [📄](nous-girl/README.md) |
-| **`senter`** | Triage Orchestrator | Darwin-28B-REASON | (TBD) | [📄](senter/README.md) |
-| **`frieza`** | Galactic Steward | Darwin-28B-REASON | (TBD) | [📄](frieza/README.md) |
-| **`chizul`** | (varies) | Darwin-28B-REASON | (TBD) | [📄](chizul/README.md) |
-| **`jestur`** | Creative Companion | (TBD) | (TBD) | [📄](jestur/README.md) |
-| **`kashik`** | (varies) | (TBD) | (TBD) | [📄](kashik/README.md) |
-| **`anser`** | (varies) | nemotron-3-ultra | (TBD) | [📄](anser/README.md) |
-| **`dev-coder`** | Codewright | (TBD) | (TBD) | [📄](dev-coder/README.md) |
-| **`dev-orch`** | (varies) | (TBD) | (TBD) | [📄](dev-orch/README.md) |
-| **`dev-review`** | (varies) | (TBD) | (TBD) | [📄](dev-review/README.md) |
-| **`test-bot`** | (varies) | (TBD) | (TBD) | [📄](test-bot/README.md) |
+| Profile | Class | Role | Card |
+|---------|-------|------|------|
+| **`klerik`** | Profile Editor | Meta-agent that reviews and surgically corrects other profiles. DSPy + GEPA for prompt optimization. | [📄](klerik/README.md) |
+| **`anser`** | Tech Support + Creator | Discord tech support. Also creates profiles/skills using Klerik + skill authoring. TL;DR + file attachment format. | [📄](anser/README.md) |
+| **`nous-girl`** | Curious Muse | Warm, intellectual, idea-driven. Creative brainstormer in the agent chain. | [📄](nous-girl/README.md) |
+| **`senter`** | Triage Orchestrator | Receives ideas, decides scope, routes to specialists. Manages the Kanban board. | [📄](senter/README.md) |
+| **`chizul`** | Builder | The worker profile. Executes Kanban tasks — code, config, file operations. | [📄](chizul/README.md) |
+| **`crow`** | Deep Researcher | Deep web research agent. Uses /learn and llm-wiki to create structured lore. | *(coming soon)* |
+| **`kashik`** | Akashic Librarian | Transforms Crow research lore into universal guides and skills. Non-Hermes-specific. | [📄](kashik/README.md) |
+| **`frieza`** | Galactic Steward | Governance, moderation, Discord server management. | [📄](frieza/README.md) |
+| **`jestur`** | Creative Companion | Art, music, creative work. | [📄](jestur/README.md) |
+| **`dev-coder`** | Codewright | Engineering, code generation. | [📄](dev-coder/README.md) |
+| **`dev-orch`** | Orchestrator | Development orchestration. | [📄](dev-orch/README.md) |
+| **`dev-review`** | Reviewer | Code review and quality gates. | [📄](dev-review/README.md) |
+| **`test-bot`** | Test Agent | Testing and experimentation. | [📄](test-bot/README.md) |
 
 ### Class taxonomy (game-style)
 
 | Class | Used for |
-|---|---|
-| **Curious Muse** | warm, intellectual, idea-driven personalities (e.g. Nous Girl) |
-| **Triage Orchestrator** | receives ideas, decides scope, routes to specialists (e.g. Senter) |
-| **Profile Editor** | meta-agents that review and correct other profiles (e.g. Klerik) |
-| **Ambient Curator** | long-running perpetual agents (e.g. evolutionary-radio) |
-| **Galactic Steward** | governance / moderation / structure roles (e.g. Frieza) |
-| **Creative Companion** | art, music, creative work (e.g. Jestur) |
-| **Codewright** | engineering, code generation, dev tooling |
-| **Agent** | default fallback when no specific class matches |
+|-------|----------|
+| **Profile Editor** | meta-agents that review and correct other profiles (Klerik) |
+| **Tech Support + Creator** | Discord support + profile/skill creation (Anser) |
+| **Curious Muse** | warm, intellectual, idea-driven personalities (Nous Girl) |
+| **Triage Orchestrator** | receives ideas, decides scope, routes to specialists (Senter) |
+| **Builder** | executes tasks — code, config, file operations (Chizul) |
+| **Deep Researcher** | deep web research, lore creation (Crow) |
+| **Akashic Librarian** | transforms research into universal guides (Kashik) |
+| **Galactic Steward** | governance / moderation / structure (Frieza) |
+| **Creative Companion** | art, music, creative work (Jestur) |
+| **Codewright** | engineering, code generation |
+| **Agent** | default fallback |
 
 ---
 
@@ -45,7 +49,7 @@ A character card is a **standardized, game-style README** for a Hermes agent pro
 
 1. **Name + Class** — who they are, what role they play
 2. **Stats** — model, voice, eikon, memory, sessions, skills
-3. **Skills** — installed skills (walked from `~/.hermes/profiles/<name>/skills/`)
+3. **Skills** — installed skills
 4. **Lore** — the SOUL.md excerpt + AGENTS.md excerpt (the agent's "backstory")
 5. **How to Import** — a one-page tutorial for using the profile
 
@@ -59,22 +63,17 @@ Nous Research brand DNA (Courier Pro, monochrome, halftone grain, retro-futurist
 ### Option 1: Import as a real profile
 
 ```bash
-# Symlink the card into your profiles dir
 ln -s /path/to/sovth-config/profiles/klerik ~/.hermes/profiles/klerik
-
-# Launch
 hermes -p klerik
 ```
 
-The card README serves as the "manual" — read it to understand what the agent does.
+### Option 2: Use as a reference
 
-### Option 2: Use as a reference (no install)
-
-Just read the card to learn what the profile does, what skills it has, and how it differs from other profiles. No install needed.
+Read the card to learn what the profile does, what skills it has, and how it differs from others.
 
 ### Option 3: Use as a distribution template
 
-Fork the repo, drop your own profile into `profiles/<your-name>/`, and ship a character card with it. The generator handles everything — just run:
+Fork the repo, drop your own profile into `profiles/<your-name>/`, and ship a character card with it:
 
 ```bash
 python3 -c "
@@ -88,37 +87,12 @@ generate_character_card('your-profile-name', preset='arcade', out_dir=Path('prof
 
 ---
 
-## How the cards were generated
-
-Each card was produced by the `character_card` tool in this plugin:
-
-```text
-/character_card generate_all --preset arcade
-```
-
-This walks `~/.hermes/profiles/*/`, extracts:
-- **role** from the first line of `SOUL.md`
-- **class** inferred from the role via the class taxonomy above
-- **model** from `config.yaml`'s `model.default`
-- **voice** from `config.yaml`'s `tts.edge.voice`
-- **eikon** from `config.yaml`'s `eikon` field
-- **skills** from `skills/<name>/SKILL.md` directories
-- **lore** from the first 200 words of `SOUL.md` and `AGENTS.md`
-
-The portrait (`portrait.png`) is currently a placeholder. To generate real pixel-art
-portraits, use the [pixel-art skill](https://github.com/hermes-agent/optional-skills/tree/main/creative/pixel-art)
-or run the FAL image generation pipeline described in the
-[nous-brand-guide](../.hermes/skills/creative/nous-brand-guide/SKILL.md).
-
----
-
 ## Adding your own card
 
 1. Drop a new profile directory at `~/.hermes/profiles/<your-name>/` with at least a `SOUL.md`
 2. Run `/character_card generate <your-name> --preset <choice>`
-3. The card lands at `~/.hermes/sovth-config/profiles/<your-name>/` by default
-4. (Optional) Copy or symlink it into `sovth-config/profiles/` for distribution
-5. Commit and push — the new card is now part of the public roster
+3. Copy or symlink it into `sovth-config/profiles/` for distribution
+4. Commit and push — the new card is now part of the public roster
 
 ---
 
