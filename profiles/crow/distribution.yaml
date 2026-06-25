@@ -1,0 +1,11 @@
+name: crow
+version: 0.1.0
+description: "Deep web research agent that creates structured lore via /learn and llm-wiki"
+author: SouthpawIN
+license: MIT
+hermes_requires: ">=0.12.0"
+distribution_owned:
+  - SOUL.md
+  - AGENTS.md
+  - config.yaml
+env_requires: []

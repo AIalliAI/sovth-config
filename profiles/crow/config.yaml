@@ -1,0 +1,30 @@
+model:
+  base_url: https://inference-api.nousresearch.com/v1
+  default: z-ai/glm-5.2
+  provider: nous
+toolsets:
+- hermes-cli
+agent:
+  max_turns: 120
+  tool_use_enforcement: auto
+display:
+  personality: concise
+  skin: nord
+  language: en
+memory:
+  memory_enabled: true
+  memory_char_limit: 2200
+skills:
+  template_vars: true
+context:
+  engine: compressor
+web:
+  backend: firecrawl
+platform_toolsets:
+  cli:
+  - file
+  - memory
+  - session_search
+  - skills
+  - terminal
+  - web
