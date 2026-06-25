@@ -9,6 +9,7 @@ provides_tools:
   - reading_list
   - character_card
   - invoke_profile
+  - skill_market
 tags:
   - opinionated-config
   - hermes-agent

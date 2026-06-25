@@ -173,3 +173,41 @@ INVOKE_PROFILE_SCHEMA = {
         "required": ["name", "prompt"],
     },
 }
+
+
+SKILL_MARKET_SCHEMA = {
+    "name": "skill_market",
+    "description": "Search, register, suggest, and refine profiles and skills in the sovth-config repo. Actions: search (find matching artifacts), register (add new artifact), suggest (log a gap), refine (increment similar-gap counter), list (show all artifacts), status (check suggestion state).",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "action": {
+                "type": "string",
+                "enum": ["search", "register", "suggest", "refine", "list", "status"],
+                "description": "What to do.",
+            },
+            "query": {
+                "type": "string",
+                "description": "Search query or suggestion description.",
+            },
+            "type": {
+                "type": "string",
+                "enum": ["skill", "profile"],
+                "description": "Artifact type (for register).",
+            },
+            "name": {
+                "type": "string",
+                "description": "Artifact name (for register/status).",
+            },
+            "path": {
+                "type": "string",
+                "description": "File path (for register).",
+            },
+            "suggestion_id": {
+                "type": "string",
+                "description": "Suggestion ID (for refine/status).",
+            },
+        },
+        "required": ["action"],
+    },
+}

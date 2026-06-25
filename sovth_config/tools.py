@@ -221,6 +221,220 @@ def _handle_invoke_profile(args: dict[str, Any], **_: Any) -> str:
 
 
 # ---------------------------------------------------------------------------
+# skill_market
+# ---------------------------------------------------------------------------
+
+# Allow override via SOVTH_CONFIG_ROOT env var (for testing or non-default
+# repo locations). Default: ~/projects/sovth-config
+SOVTH_CONFIG_ROOT = Path(
+    os.environ.get("SOVTH_CONFIG_ROOT")
+    or os.path.expanduser("~/projects/sovth-config")
+)
+
+# Suggestion log lives outside the repo (per-user state).
+SUGGESTIONS_PATH = Path(
+    os.environ.get("SOVTH_CONFIG_SUGGESTIONS")
+    or os.path.expanduser("~/.hermes/sovth-config/suggestions.json")
+)
+
+# Files scanned for keyword matches during `search`.
+_MARKET_DOC_FILES = ("SOUL.md", "AGENTS.md", "SKILL.md", "README.md")
+
+
+def _suggestions_load() -> list[dict[str, Any]]:
+    if not SUGGESTIONS_PATH.exists():
+        return []
+    try:
+        data = json.loads(SUGGESTIONS_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, list) else []
+    except (json.JSONDecodeError, OSError):
+        return []
+
+
+def _suggestions_save(items: list[dict[str, Any]]) -> None:
+    SUGGESTIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SUGGESTIONS_PATH.write_text(json.dumps(items, indent=2), encoding="utf-8")
+
+
+def _market_description(artifact_dir: Path) -> str:
+    """Best-effort one-line description for an artifact directory."""
+    for docname in _MARKET_DOC_FILES:
+        doc = artifact_dir / docname
+        if doc.exists():
+            try:
+                text = doc.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            # First non-empty, non-heading line.
+            for line in text.splitlines():
+                stripped = line.strip().lstrip("#").strip()
+                if stripped:
+                    return stripped[:200]
+    return ""
+
+
+def _scan_artifacts() -> list[dict[str, Any]]:
+    """Walk profiles/*/ and skills/*/ and return a flat list of artifacts."""
+    root = SOVTH_CONFIG_ROOT
+    artifacts: list[dict[str, Any]] = []
+    for kind, subdir in (("profile", "profiles"), ("skill", "skills")):
+        base = root / subdir
+        if not base.is_dir():
+            continue
+        for entry in sorted(base.iterdir()):
+            if not entry.is_dir():
+                continue
+            artifacts.append(
+                {
+                    "type": kind,
+                    "name": entry.name,
+                    "path": str(entry),
+                    "description": _market_description(entry),
+                }
+            )
+    return artifacts
+
+
+def _handle_skill_market(args: dict[str, Any], **_: Any) -> str:
+    action = str(args.get("action") or "").strip()
+    if not action:
+        return _err("action is required (search|register|suggest|refine|list|status)")
+
+    # ----- list -----
+    if action == "list":
+        artifacts = _scan_artifacts()
+        return _ok(
+            artifacts=artifacts,
+            count=len(artifacts),
+            root=str(SOVTH_CONFIG_ROOT),
+        )
+
+    # ----- search -----
+    if action == "search":
+        query = str(args.get("query") or "").strip().lower()
+        if not query:
+            return _err("query is required for `search`")
+        terms = [t for t in query.split() if t]
+        if not terms:
+            return _err("query is required for `search`")
+        matches: list[dict[str, Any]] = []
+        for art in _scan_artifacts():
+            haystack = " ".join(
+                [art["name"], art["description"], art["type"]]
+            ).lower()
+            hits = sum(1 for t in terms if t in haystack)
+            if hits == 0:
+                continue
+            confidence = round(hits / len(terms), 3)
+            matches.append({**art, "confidence": confidence, "matched_terms": hits})
+        matches.sort(key=lambda m: m["confidence"], reverse=True)
+        return _ok(
+            query=query,
+            matches=matches,
+            count=len(matches),
+        )
+
+    # ----- register -----
+    if action == "register":
+        atype = str(args.get("type") or "").strip()
+        name = str(args.get("name") or "").strip()
+        src = str(args.get("path") or "").strip()
+        if atype not in ("skill", "profile"):
+            return _err("type is required for `register` (skill|profile)")
+        if not name:
+            return _err("name is required for `register`")
+        if not src:
+            return _err("path is required for `register` (source file)")
+        src_path = Path(os.path.expanduser(src))
+        if not src_path.is_file():
+            return _err(f"source file not found: {src_path}")
+        subdir = "skills" if atype == "skill" else "profiles"
+        dest_dir = SOVTH_CONFIG_ROOT / subdir / name
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        dest_path = dest_dir / src_path.name
+        try:
+            shutil.copy2(src_path, dest_path)
+        except OSError as e:
+            return _err(f"failed to copy file: {e}")
+        return _ok(
+            type=atype,
+            name=name,
+            path=str(dest_path),
+            message=f"Registered {atype} '{name}' at {dest_path}",
+        )
+
+    # ----- suggest -----
+    if action == "suggest":
+        description = str(args.get("query") or "").strip()
+        if not description:
+            return _err("query is required for `suggest` (gap description)")
+        items = _suggestions_load()
+        import time, uuid
+        sid = uuid.uuid4().hex[:12]
+        items.append(
+            {
+                "id": sid,
+                "description": description,
+                "counter": 1,
+                "state": "pending",
+                "created_at": int(time.time()),
+            }
+        )
+        _suggestions_save(items)
+        return _ok(
+            suggestion_id=sid,
+            counter=1,
+            state="pending",
+            message="Suggestion logged. Use `refine` to bump the counter if the gap recurs.",
+        )
+
+    # ----- refine -----
+    if action == "refine":
+        sid = str(args.get("suggestion_id") or "").strip()
+        if not sid:
+            return _err("suggestion_id is required for `refine`")
+        items = _suggestions_load()
+        target = next((s for s in items if s.get("id") == sid), None)
+        if target is None:
+            return _err(f"no suggestion found with id '{sid}'")
+        target["counter"] = int(target.get("counter", 0)) + 1
+        ready = target["counter"] >= 3
+        if ready:
+            target["state"] = "ready"
+        _suggestions_save(items)
+        return _ok(
+            suggestion_id=sid,
+            counter=target["counter"],
+            state=target["state"],
+            ready_for_creation_chain=ready,
+            message=(
+                "Counter reached threshold — ready for creation chain."
+                if ready
+                else f"Counter bumped to {target['counter']}. Creation chain triggers at 3+."
+            ),
+        )
+
+    # ----- status -----
+    if action == "status":
+        sid = str(args.get("suggestion_id") or "").strip()
+        name = str(args.get("name") or "").strip()
+        items = _suggestions_load()
+        if sid:
+            target = next((s for s in items if s.get("id") == sid), None)
+            if target is None:
+                return _err(f"no suggestion found with id '{sid}'")
+            return _ok(suggestion=target)
+        # No id — return all suggestions (optionally filtered by name/desc).
+        if name:
+            filtered = [s for s in items if name.lower() in s.get("description", "").lower()]
+        else:
+            filtered = items
+        return _ok(suggestions=filtered, count=len(filtered))
+
+    return _err(f"unknown action: {action!r}")
+
+
+# ---------------------------------------------------------------------------
 # internal: subprocess sanity (for plugin self-check)
 # ---------------------------------------------------------------------------
 
