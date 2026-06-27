@@ -1,5 +1,7 @@
 # 🎴 Profile Roster
 
+![Profile Roster](https://v3b.fal.media/files/b/0a9fe953/WMbN_xWeU0AJqfaoATit8_sRiOMFlx.png)
+
 > Character cards for the Hermes Agent profile fleet.
 > Each card is a game-style character sheet — Name, Class, Stats, Skills, Lore, How to Import.
 

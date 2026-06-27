@@ -26,6 +26,10 @@ This tutorial walks you through setting up the entire fleet and understanding ho
 
 ---
 
+---
+
+![Section](https://v3b.fal.media/files/b/0a9fe954/IsgVmqFXee_ZV-2DMEB7P_FHAeIMiR.png)
+
 ## Step 1: Install the Fleet
 
 ```bash

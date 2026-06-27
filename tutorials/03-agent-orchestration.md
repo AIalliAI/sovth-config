@@ -41,6 +41,10 @@ Senter is always the hub. It decides who gets what and in what order.
 
 ---
 
+---
+
+![Section](https://v3b.fal.media/files/b/0a9fe954/eEvtYs48bKeLcqmf90_Jm_8E73wpH5.png)
+
 ## Pattern 1: Research → Document → Review
 
 The most common pattern. Use it when you need researched, documented, and quality-checked output.

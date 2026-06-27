@@ -1,5 +1,7 @@
 # 🎴 sovth-config
 
+![sovth-config](https://v3b.fal.media/files/b/0a9fe952/HOgNL2L-6odhLPFuC2-bg_9zi4tbwN.png)
+
 > **An opinionated configuration for [Hermes Agent](https://github.com/NousResearch/hermes-agent).**
 > Distributable profiles, skills, and tools — curated, battle-tested, and kept updated with everything useful we make.
 
