@@ -109,6 +109,7 @@ Deep-dive guides on using the full fleet together. Each tutorial has dark editor
 | 2 | [Project Planning](tutorials/02-project-planning.md) | Plan projects with Anser, read plan documents, hand off to Senter |
 | 3 | [Agent Orchestration](tutorials/03-agent-orchestration.md) | Multi-agent patterns — Research→Document→Review, Build→Review→Deploy, fan-out, cron automation |
 | 4 | [Fleet in Action](tutorials/04-fleet-in-action.md) | Real-world scenarios — CI monitoring bot, weekly AI research pipeline, profile creation chain, infrastructure migration |
+| 5 | [Eikon Pipeline](tutorials/05-eikon-pipeline.md) | Character art → Braille pixel Eikons for Herm TUI — prompt-to-animation pipeline |
 
 Each tutorial stands alone but builds on the previous ones. Start with Getting Started, or jump to the scenario that matches what you're building.
 
