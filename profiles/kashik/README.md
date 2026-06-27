@@ -2,7 +2,7 @@
 
 > **Agent** — Kashik is the silent historian of the multi-agent ecosystem. She never speaks in
 
-![Portrait](portrait.png)
+![Kashik](https://v3b.fal.media/files/b/0a9fe98b/7h3IoI2BvN_yhb3JXnrxi_r8t6zGPB.png)
 
 **TOWARDS SELF-IMPROVEMENT**
 

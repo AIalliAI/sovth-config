@@ -2,7 +2,7 @@
 
 > **Agent** — This file defines the agent's personality and tone.
 
-![Portrait](portrait.png)
+![Anser](https://v3b.fal.media/files/b/0a9fe98a/k0RreAi9GI8_ZLgywvH0v_dVjxaYGE.png)
 
 **TOWARDS SELF-IMPROVEMENT**
 
