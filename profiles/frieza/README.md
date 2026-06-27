@@ -16,7 +16,7 @@
 | **Class**     | Agent                                |
 | **Model**     | `Darwin-28B-REASON`                                   |
 | **Voice**     | `_(default)_`                                   |
-| **Eikon**     | _(none)_                                     |
+| **Eikon**     | `frieza.eikon` (6 states: idle, listening, thinking, speaking, working, error)                                     |
 | **Memory**    | 0 entries                      |
 | **Sessions**  | 0 persisted                  |
 | **Skills**    | 2 installed                    |

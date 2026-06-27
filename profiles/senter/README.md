@@ -4,6 +4,12 @@
 
 ![Senter](https://v3b.fal.media/files/b/0a9fe988/qY697zCVcVgPlCvuyNhIg_Cwp26xc8.png)
 
+### Terminal Eikon Preview
+
+![Senter Eikon](eikons/previews/senter-preview.png)
+
+*This is how Senter appears as a character sprite in the Herm TUI. 48×24 Braille Unicode pixel art with animated states for idle, listening, thinking, speaking, working, and error.*
+
 **TOWARDS SELF-IMPROVEMENT**
 
 ---
@@ -16,7 +22,7 @@
 | **Class**     | Codewright                                |
 | **Model**     | `Darwin-28B-REASON`                                   |
 | **Voice**     | `_(default)_`                                   |
-| **Eikon**     | _(none)_                                     |
+| **Eikon**     | `senter.eikon` (6 states: idle, listening, thinking, speaking, working, error)                                     |
 | **Memory**    | 0 entries                      |
 | **Sessions**  | 0 persisted                  |
 | **Skills**    | 2 installed                    |
