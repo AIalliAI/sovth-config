@@ -79,13 +79,13 @@ Character cards for a multi-agent ecosystem. Each is a game-style README — Nam
 | Profile | Class | Role |
 |---------|-------|------|
 | **`klerik`** | Profile Editor | Meta-agent that reviews and surgically corrects other Hermes agent profiles. Uses DSPy + GEPA for prompt optimization. |
-| **`anser`** | Tech Support + Creator | Discord tech support for Hermes Agent. Also creates profiles and skills using Klerik + skill authoring. Always answers in TL;DR + file attachment format. |
+| **`anser`** | Tech Support + Planner | Discord tech support. Also plans projects — analyzes Hermes ecosystem to structure ideas into executable plans. |
 | **`nous-girl`** | Curious Muse | Warm, intellectual, idea-driven. The creative brainstormer in the agent chain. |
 | **`senter`** | Triage Orchestrator | Receives ideas, decides scope, routes to specialists. Manages the Kanban board. |
 | **`chizul`** | Builder | The worker profile. Executes Kanban tasks — code, config, file operations. |
-| **`kashik`** | Akashic Librarian | Silent historian that transforms Crow research lore into universal guides and skills. Non-Hermes-specific. |
+| **`kashik`** | Akashic Librarian | Silent historian — watches all agent activity, maintains per-agent wikis, preserves institutional memory across the entire Hermes lifespan. |
 | **`crow`** | Deep Researcher | Deep web research agent. Uses /learn and llm-wiki to create structured "lore" that Kashik turns into guides. |
-| **`frieza`** | Galactic Steward | Governance, moderation, Discord server management. |
+| **`frieza`** | Galactic Steward | Infrastructure automation — deploys containers, provisions VMs, manages GitOps workflows. |
 | **`jestur`** | Creative Companion | Art, music, creative work. |
 | **`dev-coder`** | Codewright | Engineering, code generation. |
 | **`dev-orch`** | Orchestrator | Development orchestration. |
@@ -93,6 +93,21 @@ Character cards for a multi-agent ecosystem. Each is a game-style README — Nam
 | **`test-bot`** | Test Agent | Testing and experimentation. |
 
 See [`profiles/README.md`](profiles/README.md) for the full roster with character cards.
+
+---
+
+## Tutorials
+
+Deep-dive guides on using the full fleet together. Each tutorial has dark editorial imagery and walks through real workflows.
+
+| # | Tutorial | What you'll learn |
+|---|----------|-------------------|
+| 1 | [Getting Started](tutorials/01-getting-started.md) | Install the fleet, understand the flow, run your first orchestration |
+| 2 | [Project Planning](tutorials/02-project-planning.md) | Plan projects with Anser, read plan documents, hand off to Senter |
+| 3 | [Agent Orchestration](tutorials/03-agent-orchestration.md) | Multi-agent patterns — Research→Document→Review, Build→Review→Deploy, fan-out, cron automation |
+| 4 | [Fleet in Action](tutorials/04-fleet-in-action.md) | Real-world scenarios — CI monitoring bot, weekly AI research pipeline, profile creation chain, infrastructure migration |
+
+Each tutorial stands alone but builds on the previous ones. Start with Getting Started, or jump to the scenario that matches what you're building.
 
 ---
 
