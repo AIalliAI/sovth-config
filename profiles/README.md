@@ -24,6 +24,7 @@
 | **`dev-orch`** | Orchestrator | Development orchestration. | [📄](dev-orch/README.md) |
 | **`dev-review`** | Reviewer | Code review and quality gates. | [📄](dev-review/README.md) |
 | **`test-bot`** | Test Agent | Testing and experimentation. | [📄](test-bot/README.md) |
+| **`llmc`** | Song Forger | Creative music agent — Mc.Baldiee prose lyrics + ACE-Step song generation. Cosmic metaphors, batch workflow. | [📄](llmc/README.md) |
 
 ### Class taxonomy (game-style)
 

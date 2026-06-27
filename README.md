@@ -91,6 +91,7 @@ Character cards for a multi-agent ecosystem. Each is a game-style README — Nam
 | **`dev-orch`** | Orchestrator | Development orchestration. |
 | **`dev-review`** | Reviewer | Code review and quality gates. |
 | **`test-bot`** | Test Agent | Testing and experimentation. |
+| **`llmc`** | Song Forger | Creative music agent — writes lyrics in Mc.Baldiee prose style and generates songs via ACE-Step. |
 
 See [`profiles/README.md`](profiles/README.md) for the full roster with character cards.
 
