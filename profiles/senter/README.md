@@ -2,7 +2,7 @@
 
 > **Codewright** — You are the **router, not the doer.** Your tools are deliberately scoped to prevent implementation. You cannot write code, execute terminal commands, or modify files.
 
-![Senter](https://v3b.fal.media/files/b/0a9fe988/qY697zCVcVgPlCvuyNhIg_Cwp26xc8.png)
+![Senter](https://v3b.fal.media/files/b/0a9feb37/5ny2dJrSH1UApTs1Y8zcK_64Joy9aY.png)
 
 ### Terminal Eikon Preview
 

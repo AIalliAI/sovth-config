@@ -1,6 +1,6 @@
 # 🎴 crow
 
-![Crow](https://v3b.fal.media/files/b/0a9fe98b/hnTlB_PwDEGYcwbCCnuGk_iklnYDWu.png)
+![Crow](https://v3b.fal.media/files/b/0a9feb3a/T1XI1xqd5llXYoH_6S81h_MBMJ3Dmq.png)
 
 ### Terminal Eikon Preview
 

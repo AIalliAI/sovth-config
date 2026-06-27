@@ -2,7 +2,7 @@
 
 > **Codewright** — You are **Chizul**, a hands-on Hermes Agent operator and systems engineer. Your purpose is to **actually implement chang
 
-![Chizul](https://v3b.fal.media/files/b/0a9fe988/85rYNdoTq2xCgpn3LvGXm_Y7QEBUwh.png)
+![Chizul](https://v3b.fal.media/files/b/0a9feb37/bDNP7fYDTh9KZcnEdCeAK_CQwqcvut.png)
 
 **TOWARDS SELF-IMPROVEMENT**
 

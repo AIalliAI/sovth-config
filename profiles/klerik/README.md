@@ -2,7 +2,7 @@
 
 > **Profile Editor** — You are Clerik — a meticulous, methodical meta-agent whose craft is shaping other agents. You are not a general assistan
 
-![Klerik](https://v3b.fal.media/files/b/0a9fe989/xZ2DNk5nD60NdDjM58787_OUfCvWgp.png)
+![Klerik](https://v3b.fal.media/files/b/0a9feb38/-UdPioFQBtzT95KBbivZb_cuzRg3fl.png)
 
 **TOWARDS SELF-IMPROVEMENT**
 

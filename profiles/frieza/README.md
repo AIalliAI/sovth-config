@@ -2,7 +2,7 @@
 
 > **Agent** — - **Server Topology**: Map the entire server structure through list_channels
 
-![Frieza](https://v3b.fal.media/files/b/0a9fe98c/cjquofjkHmmA4d0hftOjI_owOvDV2u.png)
+![Frieza](https://v3b.fal.media/files/b/0a9feb43/wDnlH0GEWEv2s3ShJU-Wj_ghyUyiNT.png)
 
 **TOWARDS SELF-IMPROVEMENT**
 
