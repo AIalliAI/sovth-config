@@ -40,6 +40,30 @@ dependencies:
     repo: SouthpawIN/turbofit
     install: "hermes skills tap add SouthpawIN/turbofit && hermes skills install turbofit"
     required: true
+  - name: sirvir
+    repo: SouthpawIN/sirvir
+    install: "hermes skills install sirvir"
+    required: true
+  - name: sirvir-bench
+    repo: SouthpawIN/sirvir
+    install: "hermes skills install sirvir-bench"
+    required: true
+  - name: sirvir-budget
+    repo: SouthpawIN/sirvir
+    install: "hermes skills install sirvir-budget"
+    required: true
+  - name: sirvir-research
+    repo: SouthpawIN/sirvir
+    install: "hermes skills install sirvir-research"
+    required: true
+  - name: sirvir-scale
+    repo: SouthpawIN/sirvir
+    install: "hermes skills install sirvir-scale"
+    required: true
+  - name: sirvir-serve
+    repo: SouthpawIN/sirvir
+    install: "hermes skills install sirvir-serve"
+    required: true
 
 distribution_owned:
   - SOUL.md
