@@ -430,10 +430,9 @@ update_npm_component() {
         return 1
     fi
 
-    # Current version (global) - match only the line for this exact package
+    # Current version (global)
     local before=""
-    before="$("${npm_bin}" ls -g --depth=0 --json 2>/dev/null \
-                | "${PY:-python3}" -c "import json,sys; d=json.load(sys.stdin); print((d.get('dependencies') or {}).get('${package}',{}).get('version',''))" 2>/dev/null || echo "")"
+    before="$("${npm_bin}" ls -g --depth=0 2>/dev/null | grep -E "[^ ]+@[^ ]+$" | awk -F@ '{print $NF}' || echo "")"
 
     if [[ "${CHECK_ONLY}" -eq 1 ]]; then
         record_updated "${name}"
@@ -444,8 +443,7 @@ update_npm_component() {
     log_info "[${name}] npm update -g ${package}"
     if "${npm_bin}" update -g "${package}" 2>>"${LOG_FILE}"; then
         local after=""
-        after="$("${npm_bin}" ls -g --depth=0 --json 2>/dev/null \
-                    | "${PY:-python3}" -c "import json,sys; d=json.load(sys.stdin); print((d.get('dependencies') or {}).get('${package}',{}).get('version',''))" 2>/dev/null || echo "")"
+        after="$("${npm_bin}" ls -g --depth=0 2>/dev/null | grep "${package}@" | awk -F@ '{print $NF}' || echo "")"
         if [[ -n "${after}" && "${before}" != "${after}" ]]; then
             record_updated "${name}"
             log_info "[${name}] ${package} ${before:-?} -> ${after}"
