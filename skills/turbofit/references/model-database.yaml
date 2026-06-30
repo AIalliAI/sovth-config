@@ -237,13 +237,13 @@ models:
       swe_bench_verified: null
       tau2_bench: 97.7
       terminal_bench_hard: 43.2
-    context_max: 203000
+    context_max: 202752
     context_tiers:
-    - 203000
+    - 202752
     - 131072
     discovered: '2026-06-26'
     family: GLM
-    last_verified: '2026-06-26'
+    last_verified: '2026-06-29'
     name: GLM 5.1
     new: true
     notes: 'Released Apr 7, 2026. 203K context. Cache read: $0.182/M (81% savings).
@@ -528,6 +528,35 @@ models:
     type: api
     version: Nemotron-3-Nano-30B-A3B
     vision: false
+  nemotron-3.5-content-safety:
+    benchmarks:
+      notes: '4B-parameter multimodal guardrail model fine-tuned from Google Gemma-3-4B-IT.
+        Not a general chat model — designed for content safety classification.'
+      source: NVIDIA NIM, HuggingFace blog
+    context_max: 128000
+    context_tiers:
+    - 128000
+    discovered: '2026-06-29'
+    family: Nemotron
+    last_verified: '2026-06-29'
+    name: Nemotron 3.5 Content Safety
+    new: true
+    notes: 'Free on OpenRouter (:free variant) and NIM. 4B params, vision-capable
+      guardrail model. 128K ctx. Not a general-purpose model — content safety classifier.'
+    pricing:
+      nim:
+        input: 0
+        output: 0
+        slug: nvidia/nemotron-3.5-content-safety
+      openrouter:
+        free: true
+        input: 0
+        output: 0
+        slug: nvidia/nemotron-3.5-content-safety:free
+    role: aux
+    type: api
+    version: Nemotron-3.5-Content-Safety
+    vision: true
   nemotron-3-nano-omni-30b:
     benchmarks:
       notes: '30B MoE, 3B active. Omni-modal: text, image, video, speech. Designed
