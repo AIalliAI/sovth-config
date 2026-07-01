@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-27T11:00:23.350395+00:00",
+  "generated": "2026-06-30T11:08:02.535872+00:00",
   "source": "openrouter",
   "models": [
     {
@@ -86,9 +86,9 @@
     },
     {
       "slug": "moonshotai/kimi-k2.6",
-      "input_per_m": 0.66,
-      "output_per_m": 3.41,
-      "cache_read_per_m": 0.144,
+      "input_per_m": 0.55,
+      "output_per_m": 3.2,
+      "cache_read_per_m": 0.11,
       "cache_write_per_m": 0.0,
       "has_cache_read": true,
       "has_cache_write": false,
@@ -424,11 +424,11 @@
     },
     {
       "slug": "z-ai/glm-5.1",
-      "input_per_m": 0.98,
-      "output_per_m": 3.08,
-      "cache_read_per_m": 0.182,
+      "input_per_m": 0.975,
+      "output_per_m": 4.3,
+      "cache_read_per_m": 0.0,
       "cache_write_per_m": 0.0,
-      "has_cache_read": true,
+      "has_cache_read": false,
       "has_cache_write": false,
       "context_length": 202752,
       "has_vision": false,
@@ -440,7 +440,7 @@
     },
     {
       "slug": "z-ai/glm-5.2",
-      "input_per_m": 0.95,
+      "input_per_m": 0.94,
       "output_per_m": 3.0,
       "cache_read_per_m": 0.18,
       "cache_write_per_m": 0.0,

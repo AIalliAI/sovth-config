@@ -1,4 +1,6 @@
-# Turbofit Model Research Report — 2026-06-27
+# Turbofit Model Research Report
+
+**Last Updated:** 2026-06-30 — 2026-06-27
 
 ## Data Sources
 - Model pricing: OpenRouter API (`/api/v1/models`) — live

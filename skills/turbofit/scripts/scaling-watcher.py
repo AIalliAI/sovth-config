@@ -74,7 +74,7 @@ STABILITY_CHECKS = 2
 # Context tiers
 CTX_FULL = 262144
 CTX_MID = 131072
-CTX_FLOOR = 131072
+CTX_FLOOR = 65536
 
 # ─── Model swap ladder (main models, largest to smallest) ─────────────────────
 MODEL_SWAP_LADDER = [
@@ -214,7 +214,7 @@ def daemon_action(action, alias):
     # Add short-form for known long aliases
     short_map = {
         "darwin-28b-reason": "turbofit-darwin-28b-reason.service",
-        "darwin-28b-coder": "turbofit-darwin-28b-coder.service",
+        "darwin-28b-coder": "darwin-coder.service",
     }
     if alias in short_map:
         candidates.insert(0, short_map[alias])
@@ -492,8 +492,8 @@ def main():
 
     local = prefs.get("api_fallback", {}).get("local", {})
     local_model = local.get("main", "darwin-28b-reason")
-    local_url = local.get("base_url", "http://127.0.0.1:11500/v1")
-    local_provider = local.get("provider", "custom:llama-main")
+    local_url = local.get("base_url", "http://127.0.0.1:8091/main/v1")
+    local_provider = local.get("provider", "localhost")
 
     log.info("╔══════════════════════════════════════════════════════════╗")
     log.info("║  turbofit scaling watcher v2 — gradual contraction      ║")
@@ -800,20 +800,85 @@ def main():
                     last_action_time = time.time()
                     time.sleep(10)
 
-
             # ─── Endpoint health check ──────────────────────────────
-            # Actually curl the main endpoint. If systemctl says active
-            # but the endpoint returns 404 or times out, restart it.
+            # Actually probe the main endpoint. If systemctl says active
+            # but the endpoint isn't serving, restart it.
+            #
+            # BUG HISTORY: this check used to hit `/models` or `/v1models`
+            # (both 404 on llama-server), which caused the watcher to think
+            # the daemon was down during its 20s load window and enter a
+            # restart loop — kill the daemon 20s after it became ready,
+            # poll again, see 404 (loading), kill again, ad infinitum.
+            #
+            # Fix:
+            #  1. Probe the actual llama-server endpoint `/v1/models` (or
+            #     fall back to `/health`).
+            #  2. Strip the trailing /v1 from local_url before probing so
+            #     the constructed URL is correct.
+            #  3. Honor a startup grace window using the systemd unit's
+            #     ActiveEnterTimestamp, not `last_action_time`. The bug in
+            #     the previous attempt was that `last_action_time` only
+            #     updates when THIS WATCHER triggers a restart — if the
+            #     daemon dies for any OTHER reason (OOM, manual kill, system
+            #     pressure, another watcher), `last_action_time` is stale
+            #     and grace check passes immediately, causing an immediate
+            #     restart.
+            #
+            # Now: if the daemon has been alive for less than 60s (i.e. it
+            # just restarted and is still loading its 16GB GGUF into VRAM),
+            # skip the probe entirely. 60s covers the realistic load time
+            # (~20s) + systemd overhead + the watcher's own sleep(10).
             if contraction_level < 5:
-                import urllib.request
+                endpoint_ok = False
+                # Check systemd ActiveEnterTimestamp — when the unit last
+                # came up, regardless of why.
+                import subprocess as _sp
                 try:
-                    check_url = local_url.rstrip("/") + "/models"
-                    req = urllib.request.Request(check_url)
-                    urllib.request.urlopen(req, timeout=5)
-                    endpoint_ok = True
+                    _r = _sp.run(
+                        ["systemctl", "--user", "show", f"turbofit-{local_model}.service",
+                         "--property=ActiveEnterTimestamp", "--value"],
+                        capture_output=True, text=True, timeout=5
+                    )
+                    _active_since = _r.stdout.strip()
+                    # Format: "Tue 2026-06-30 11:53:53 CDT" — parse to epoch
+                    from datetime import datetime as _dt
+                    try:
+                        _ts = _dt.strptime(_active_since, "%a %Y-%m-%d %H:%M:%S %Z").timestamp()
+                    except Exception:
+                        _ts = 0
                 except Exception:
-                    endpoint_ok = False
-                
+                    _ts = 0
+
+                daemon_age = time.time() - _ts if _ts else 999
+
+                if daemon_age < 60.0:
+                    # Daemon just came up within the last 60s — it's still
+                    # loading its GGUF. Don't probe. This breaks the
+                    # restart loop at the root, regardless of WHY the
+                    # daemon restarted.
+                    endpoint_ok = True
+                    if int(time.time()) % 30 < 2:  # log every ~30s, not every poll
+                        log.info(f"  ⏳ Main daemon alive {daemon_age:.0f}s — grace window, skipping probe")
+                else:
+                    import urllib.request
+                    # local_url is e.g. "http://127.0.0.1:11500/v1" — strip
+                    # the /v1 suffix so we can probe canonical llama-server
+                    # paths. Try /v1/models first (most reliable), then
+                    # /health as a fallback.
+                    base = local_url.rstrip("/")
+                    if base.endswith("/v1"):
+                        base = base[:-3]
+                    probe_paths = ["/v1/models", "/health"]
+                    for probe in probe_paths:
+                        try:
+                            req = urllib.request.Request(base + probe)
+                            with urllib.request.urlopen(req, timeout=3) as resp:
+                                if resp.status == 200:
+                                    endpoint_ok = True
+                                    break
+                        except Exception:
+                            continue
+
                 if not endpoint_ok and non_turbofit_used < 15:
                     log.warning(f"Main endpoint {local_url} is DOWN but VRAM is free — restarting {local_model}")
                     daemon_action("restart", local_model)

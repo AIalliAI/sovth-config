@@ -246,8 +246,9 @@ models:
     last_verified: '2026-06-29'
     name: GLM 5.1
     new: true
-    notes: 'Released Apr 7, 2026. 203K context. Cache read: $0.182/M (81% savings).
-      Predecessor to GLM 5.2. Direct Z.AI pricing same as GLM 5.2 ($1.40/$4.40).'
+    notes: 'Released Apr 7, 2026. 203K context. Cache read pricing REMOVED by OpenRouter
+      (2026-06-30). Output price increased from $3.08/M to $4.30/M. Direct Z.AI
+      pricing same as GLM 5.2 ($1.40/$4.40).'
     pricing:
       direct:
         cache_read: 0.26
@@ -255,14 +256,13 @@ models:
         output: 4.4
         provider: Z.AI
       nous:
-        input: 0.98
-        output: 3.08
+        input: 0.975
+        output: 4.3
         slug: z-ai/glm-5.1
       openrouter:
-        cache_read: 0.182
         free: false
-        input: 0.98
-        output: 3.08
+        input: 0.975
+        output: 4.3
         slug: z-ai/glm-5.1
     role: main
     type: api
@@ -296,13 +296,13 @@ models:
         output: 4.4
         provider: Z.AI
       nous:
-        input: 0.95
+        input: 0.94
         output: 3.0
         slug: z-ai/glm-5.2
       openrouter:
         cache_read: 0.18
         free: false
-        input: 0.95
+        input: 0.94
         output: 3.0
         slug: z-ai/glm-5.2
     role: main
@@ -328,14 +328,14 @@ models:
       — now paid.'
     pricing:
       nous:
-        input: 0.66
-        output: 3.41
+        input: 0.55
+        output: 3.2
         slug: moonshotai/kimi-k2.6
       openrouter:
-        cache_read: 0.144
+        cache_read: 0.11
         free: false
-        input: 0.66
-        output: 3.41
+        input: 0.55
+        output: 3.2
         slug: moonshotai/kimi-k2.6
     role: either
     type: api
